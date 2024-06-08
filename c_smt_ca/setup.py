@@ -1,5 +1,7 @@
 from setuptools import setup
 from torch.utils.cpp_extension import BuildExtension, CUDAExtension, CppExtension
+import warnings
+warnings.filterwarnings("ignore")
 
 setup(
     name='c_smt_sa',
