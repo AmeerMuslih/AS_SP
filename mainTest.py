@@ -5,7 +5,6 @@ import csv
 import pandas as pd
 import numpy as ny
 import pickle
-import PhotoTrace
 import argparse
 import math
 type_bits=33
