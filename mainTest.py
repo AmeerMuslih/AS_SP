@@ -10,10 +10,8 @@ import argparse
 import math
 type_bits=33
 parser = argparse.ArgumentParser(description='Firas Ramadan, firasramadan@campus.technion.ac.il')
-parser.add_argument('--dimension', type=int, required=True,
-                    help='choose the dimension of the systolic array')
-parser.add_argument('--GroupID', type=int, required=True
-					help='choose which group of the generated pickle files to load- all are in size of 10')
+parser.add_argument('--dimension', type=int, required=True, help='choose the dimension of the systolic array')
+parser.add_argument('--GroupID', type=int, required=True, help='choose which group of the generated pickle files to load- all are in size of 10')
 
 def csvFilesMaker(dim,GroupID,all_util,Accumulator_TOT,InputA_TOT,InputB_TOT,ToggleCount_MultiplierBits,ToggleCount_Accumulator_Bits,ToggleCount_InputA_Bits,ToggleCount_InputB_Bits):
 		filenamek_csv = "UtilityFor"+str(dim)+"X"+str(dim)+"Dim.csv"
@@ -72,7 +70,7 @@ def main():
 		original_stdout = sys.stdout
 		args = parser.parse_args()
 		dim = args.dimension
-		GroupID = args.GroupID
+		#GroupID = args.GroupID
 		all_util = torch.zeros(dim,dim,17)
 		Accumulator_TOT = torch.zeros(dim,dim,32)
 		InputA_TOT = torch.zeros(dim,dim,8)
