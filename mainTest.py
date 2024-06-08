@@ -12,7 +12,7 @@ type_bits=33
 parser = argparse.ArgumentParser(description='Firas Ramadan, firasramadan@campus.technion.ac.il')
 parser.add_argument('--dimension', type=int, required=True,
                     help='choose the dimension of the systolic array')
-parser.add_argument('--GroupID', type=int, required=True,
+parser.add_argument('--GroupID', type=int, required=True
 					help='choose which group of the generated pickle files to load- all are in size of 10')
 
 def csvFilesMaker(dim,GroupID,all_util,Accumulator_TOT,InputA_TOT,InputB_TOT,ToggleCount_MultiplierBits,ToggleCount_Accumulator_Bits,ToggleCount_InputA_Bits,ToggleCount_InputB_Bits):
@@ -83,38 +83,40 @@ def main():
 		ToggleCount_Accumulator_Bits = torch.zeros(dim,dim,32,2)
 		totalCycles=totalCycles_tmp=total_zeros_first_a=total_zeros_first_b=total_tiles=0
 
-		for i in range(10*(GroupID-1),10*GroupID):	
+		#for i in range(10*(GroupID-1),10*GroupID):	
 			
-			filename_pickle = "MatricesForAllLayersOfPhoto-QUANTIZED8bit-"+str(i+1)+".pkl"
-			with open(r'/home/firasramadan/miniconda3/project_quantization_8bit/OUTPUT-Imagenet/PickleFiles/' + filename_pickle, 'rb') as file:
-				CurrentPhoto = pickle.load(file)
-			print(len(CurrentPhoto))
-			#for m in range(0,len(CurrentPhoto)):
-			a= #CurrentPhoto[m].InputT
-			b= #CurrentPhoto[m].WeightT 
-			#a=a[:,:,:].detach().cpu()
-			#b=b[:,:].detach().cpu()
-			#ref = torch.matmul(a, b)
-			dut, util, cycles, PUs_access_count,AccumulatorBitsCount,Input_A_BitsCount,Input_B_BitsCount,MultiplierToggle,AccumulatorToggle,InputAToggle,InputBToggle = c_smt_sa.exec(a[:,:,:].detach().cpu(),b[:,:].detach().cpu(), dim, 1, 1024)
-			all_util += PUs_access_count
-			Accumulator_TOT += AccumulatorBitsCount
-			InputA_TOT += Input_A_BitsCount
-			InputB_TOT += Input_B_BitsCount
-			ToggleCount_MultiplierBits += MultiplierToggle
-			ToggleCount_Accumulator_Bits += AccumulatorToggle
-			ToggleCount_InputA_Bits += InputAToggle
-			ToggleCount_InputB_Bits += InputBToggle
-			#totalCycles += (2*dim+a.size(2)-2)*math.ceil(a.size(1)/dim)*math.ceil(b.size(1)/dim)
-			totalCycles_tmp += (cycles-3)
-			#print("Total Cycles: ")
-			#print(totalCycles)
-			print("Simulator Cycles: ")
-			print(totalCycles_tmp)
-				#diff = (ref - dut).abs().max()
-					#print("diff={}, util={}".format(diff.item(), (util / cycles).item()))
-					#if diff > 1e-4:
-					#	print("fuck")
-					#	exit()
+		filename_pickle = "MatricesForAllLayersOfPhoto-QUANTIZED8bit-"+str(i+1)+".pkl"
+		#with open(r'/home/firasramadan/miniconda3/project_quantization_8bit/OUTPUT-Imagenet/PickleFiles/' + filename_pickle, 'rb') as file:
+			#CurrentPhoto = pickle.load(file)
+		#print(len(CurrentPhoto))
+		#for m in range(0,len(CurrentPhoto)):
+		#a= CurrentPhoto[m].InputT
+		#b= CurrentPhoto[m].WeightT 
+		a = torch.zeros(1, dim, dim, type_bits)
+		b = torch.zeros(dim, dim, type_bits)
+		#a=a[:,:,:].detach().cpu()
+		#b=b[:,:].detach().cpu()
+		#ref = torch.matmul(a, b)
+		dut, util, cycles, PUs_access_count,AccumulatorBitsCount,Input_A_BitsCount,Input_B_BitsCount,MultiplierToggle,AccumulatorToggle,InputAToggle,InputBToggle = c_smt_sa.exec(a[:,:,:].detach().cpu(),b[:,:].detach().cpu(), dim, 1, 1024)
+		all_util += PUs_access_count
+		Accumulator_TOT += AccumulatorBitsCount
+		InputA_TOT += Input_A_BitsCount
+		InputB_TOT += Input_B_BitsCount
+		ToggleCount_MultiplierBits += MultiplierToggle
+		ToggleCount_Accumulator_Bits += AccumulatorToggle
+		ToggleCount_InputA_Bits += InputAToggle
+		ToggleCount_InputB_Bits += InputBToggle
+		#totalCycles += (2*dim+a.size(2)-2)*math.ceil(a.size(1)/dim)*math.ceil(b.size(1)/dim)
+		totalCycles_tmp += (cycles-3)
+		#print("Total Cycles: ")
+		#print(totalCycles)
+		print("Simulator Cycles: ")
+		print(totalCycles_tmp)
+			#diff = (ref - dut).abs().max()
+				#print("diff={}, util={}".format(diff.item(), (util / cycles).item()))
+				#if diff > 1e-4:
+				#	print("fuck")
+				#	exit()
 		#print(total_zeros_first_a+total_zeros_first_b)
 		csvFilesMaker(dim,GroupID,all_util,Accumulator_TOT,InputA_TOT,InputB_TOT,ToggleCount_MultiplierBits,ToggleCount_Accumulator_Bits,ToggleCount_InputA_Bits,ToggleCount_InputB_Bits)
 
