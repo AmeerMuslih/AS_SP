@@ -43,10 +43,10 @@ smt_sa_os<T>::smt_sa_os (uint16_t dim, uint8_t threads, uint16_t max_depth) : _d
 
 template <typename T>
 void smt_sa_os<T>::set_inputs(torch::Tensor a, torch::Tensor b) {
-    assert(a.dim() == 3);
+    assert(a.dim() == 2);
     assert(b.dim() == 2);
-	cout << a.size(2) << "      " << b.size(0) << endl;
-    if(a.size(2) != b.size(0)){
+	cout << a.size(1) << "      " << b.size(0) << endl;
+    if(a.size(1) != b.size(0)){
         cout << "ERROR: WRONG DIMENSIONS" << endl;
         exit(0);
         }
@@ -76,7 +76,7 @@ void smt_sa_os<T>::get_tile(vector<torch::Tensor> &tile_a, vector<torch::Tensor>
         if (_dim > tile_a[t].size(0)) {
             //tile_a[t] = xt::pad(tile_a[t], {{0, _dim - tile_a[t].shape()[0]}, {0, 0}});
             tile_a[t] = torch::nn::functional::pad(tile_a[t],
-                   torch::nn::functional::PadFuncOptions({0, 0, 0, _dim - tile_a[t].size(0)}));
+                   torch::nn::functional::PadFuncOptions({0, _dim - tile_a[t].size(0)}));
         }
     }
     cout << "2" << endl;
@@ -91,7 +91,7 @@ void smt_sa_os<T>::get_tile(vector<torch::Tensor> &tile_a, vector<torch::Tensor>
         if (_dim > tile_b[t].size(1)) {
             //tile_b[t] = xt::pad(tile_b[t], {{0, 0}, {0, _dim - tile_b[t].shape()[1]}});
             tile_b[t] = torch::nn::functional::pad(tile_b[t],
-                    torch::nn::functional::PadFuncOptions({0, 0, _dim - tile_b[t].size(1)}));
+                    torch::nn::functional::PadFuncOptions({0, _dim - tile_b[t].size(1)}));
         }
     }
     cout << "3" << endl;

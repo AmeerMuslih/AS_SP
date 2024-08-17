@@ -90,8 +90,8 @@ def main():
 		#for m in range(0,len(CurrentPhoto)):
 		#a= CurrentPhoto[m].InputT
 		#b= CurrentPhoto[m].WeightT 
-		a = torch.zeros(1, dim, dim, type_bits)
-		b = torch.zeros(dim, dim, type_bits)
+		a = torch.zeros(dim, type_bits)
+		b = torch.zeros(dim, type_bits)
 		#a=a[:,:,:].detach().cpu()
 		#b=b[:,:].detach().cpu()
 		#ref = torch.matmul(a, b)
