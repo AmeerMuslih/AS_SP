@@ -91,10 +91,10 @@ def main():
 		#a= CurrentPhoto[m].InputT
 		#b= CurrentPhoto[m].WeightT 
 		a = torch.zeros(dim, type_bits)
-		b = torch.zeros(dim, type_bits)
+		b = torch.zeros(type_bits, dim)
 		#a=a[:,:,:].detach().cpu()
 		#b=b[:,:].detach().cpu()
-		#ref = torch.matmul(a, b)
+		ref = torch.matmul(a, b)
 		dut, util, cycles, PUs_access_count,AccumulatorBitsCount,Input_A_BitsCount,Input_B_BitsCount,MultiplierToggle,AccumulatorToggle,InputAToggle,InputBToggle = c_smt_sa.exec(a[:,:,:].detach().cpu(),b[:,:].detach().cpu(), dim, 1, 1024)
 		all_util += PUs_access_count
 		Accumulator_TOT += AccumulatorBitsCount
@@ -110,11 +110,11 @@ def main():
 		#print(totalCycles)
 		print("Simulator Cycles: ")
 		print(totalCycles_tmp)
-			#diff = (ref - dut).abs().max()
-				#print("diff={}, util={}".format(diff.item(), (util / cycles).item()))
-				#if diff > 1e-4:
-				#	print("fuck")
-				#	exit()
+		diff = (ref - dut).abs().max()
+		print("diff={}, util={}".format(diff.item(), (util / cycles).item()))
+		if diff > 1e-4:
+			print("fuck")
+			exit()
 		#print(total_zeros_first_a+total_zeros_first_b)
 		#csvFilesMaker(dim,GroupID,all_util,Accumulator_TOT,InputA_TOT,InputB_TOT,ToggleCount_MultiplierBits,ToggleCount_Accumulator_Bits,ToggleCount_InputA_Bits,ToggleCount_InputB_Bits)
 		csvFilesMaker(dim,all_util,Accumulator_TOT,InputA_TOT,InputB_TOT,ToggleCount_MultiplierBits,ToggleCount_Accumulator_Bits,ToggleCount_InputA_Bits,ToggleCount_InputB_Bits)
