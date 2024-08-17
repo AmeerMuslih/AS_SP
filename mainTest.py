@@ -12,7 +12,8 @@ parser = argparse.ArgumentParser(description='Firas Ramadan, firasramadan@campus
 parser.add_argument('--dimension', type=int, required=True, help='choose the dimension of the systolic array')
 parser.add_argument('--GroupID', type=int, required=True, help='choose which group of the generated pickle files to load- all are in size of 10')
 
-def csvFilesMaker(dim,GroupID,all_util,Accumulator_TOT,InputA_TOT,InputB_TOT,ToggleCount_MultiplierBits,ToggleCount_Accumulator_Bits,ToggleCount_InputA_Bits,ToggleCount_InputB_Bits):
+def csvFilesMaker(dim,all_util,Accumulator_TOT,InputA_TOT,InputB_TOT,ToggleCount_MultiplierBits,ToggleCount_Accumulator_Bits,ToggleCount_InputA_Bits,ToggleCount_InputB_Bits):
+		GroupID=0 # was input
 		filenamek_csv = "UtilityFor"+str(dim)+"X"+str(dim)+"Dim.csv"
 		Destination_path = "./output"#"/home/firasramadan/miniconda3/project_quantization_8bit/c_smt_sa/OutputFiles/Group-" + str(GroupID)+ "/"
 		all_util_df = pd.DataFrame(all_util[:,:,0].numpy())
@@ -115,7 +116,8 @@ def main():
 				#	print("fuck")
 				#	exit()
 		#print(total_zeros_first_a+total_zeros_first_b)
-		csvFilesMaker(dim,GroupID,all_util,Accumulator_TOT,InputA_TOT,InputB_TOT,ToggleCount_MultiplierBits,ToggleCount_Accumulator_Bits,ToggleCount_InputA_Bits,ToggleCount_InputB_Bits)
+		#csvFilesMaker(dim,GroupID,all_util,Accumulator_TOT,InputA_TOT,InputB_TOT,ToggleCount_MultiplierBits,ToggleCount_Accumulator_Bits,ToggleCount_InputA_Bits,ToggleCount_InputB_Bits)
+		csvFilesMaker(dim,all_util,Accumulator_TOT,InputA_TOT,InputB_TOT,ToggleCount_MultiplierBits,ToggleCount_Accumulator_Bits,ToggleCount_InputA_Bits,ToggleCount_InputB_Bits)
 
 		return
 	
