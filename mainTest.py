@@ -110,6 +110,8 @@ def main():
 		#print(totalCycles)
 		print("Simulator Cycles: ")
 		print(totalCycles_tmp)
+		print(ref.size())
+		print(dut.size())
 		diff = (ref - dut).abs().max()
 		print("diff={}, util={}".format(diff.item(), (util / cycles).item()))
 		if diff > 1e-4:
