@@ -150,9 +150,9 @@ std::vector<torch::Tensor> smt_sa_os<T>::go(vector<tile_idx> &tile_vec) {
 	get_tile(tile_a, tile_b, tile_vec[0]);
     for (uint8_t t=0; t<_threads; t++)
         sa_grid.push(tile_a[t], tile_b[t], t, true);
-    torch::Tensor result = torch::zeros({_a.size(0), _a.size(1), _b.size(1)},torch::kInt32);
+    torch::Tensor result = torch::zeros({_a.size(0), _b.size(1)},torch::kInt32);
 
-	auto result_ = result.accessor<int, 3>();
+	auto result_ = result.accessor<int, 2>();
     vector<uint16_t> subtile_start, subtile_end;
     _subtile_dict(subtile_start, subtile_end);
     cout << "6" << endl;
@@ -179,12 +179,11 @@ std::vector<torch::Tensor> smt_sa_os<T>::go(vector<tile_idx> &tile_vec) {
                 }
                 halt_count = _threads;
                 if (halt_count == _threads) {
-                    uint32_t batch = floor(float(array_ctrl_[i][j]) / (a_tiles * b_tiles));
                     uint32_t i_result = int(i + int((array_ctrl_[i][j] % (a_tiles * b_tiles)) / b_tiles) * _dim);
                     uint32_t j_result = int(j + ((array_ctrl_[i][j] % (a_tiles * b_tiles)) % b_tiles) * _dim);
 
-                    if (i_result < result.size(1) && j_result < result.size(2))
-                        result_[batch][i_result][j_result] = sa_grid.nodes[i][j].get_acc();
+                    if (i_result < result.size(0) && j_result < result.size(1))
+                        result_[i_result][j_result] = sa_grid.nodes[i][j].get_acc();
                     
                     array_ctrl[i][j] = array_ctrl[i][j] + 1;
                     sa_grid.nodes[i][j].reset_acc();
@@ -222,7 +221,7 @@ std::vector<torch::Tensor> smt_sa_os<T>::go(vector<tile_idx> &tile_vec) {
 
 template <typename T>
 std::vector<torch::Tensor> smt_sa_os<T>::go() {
-    uint16_t a_tiles = ceil(float(_a.size(1)) / _dim);
+    uint16_t a_tiles = ceil(float(_a.size(0)) / _dim);
     uint16_t b_tiles = ceil(float(_b.size(1)) / _dim);
     cout << "4" << endl;
     vector<tile_idx> tile_vec;
