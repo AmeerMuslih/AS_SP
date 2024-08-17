@@ -140,20 +140,21 @@ std::vector<torch::Tensor> smt_sa_os<T>::go(vector<tile_idx> &tile_vec) {
     torch::Tensor InputAToggleCount = torch::zeros({_dim, _dim, ((sizeof(int8_t) * CHAR_BIT)),2},torch::kInt32);
     torch::Tensor InputBToggleCount = torch::zeros({_dim, _dim, ((sizeof(int8_t) * CHAR_BIT)),2},torch::kInt32);
     //auto PUs_access_count_ = PUs_access_count.accessor<T,2>();
-
+    cout << "6" << endl;
     // Assuming tile_vec is ordered (batch, height, width), i.e., rows->columns->depth!
     int32_t counter_max = (tile_vec[0].d1 * a_tiles * b_tiles) + (tile_vec[0].d2 * b_tiles) + (tile_vec[0].d3);
     torch::Tensor array_ctrl = torch::full({_dim, _dim}, counter_max, torch::dtype(torch::kInt32));
+    cout << "7" << endl;
 	auto array_ctrl_ = array_ctrl.accessor<int32_t, 2>();
     uint32_t global_tile_idx = 1;
     vector<torch::Tensor> tile_a, tile_b;
+    cout << "8" << endl;
 	get_tile(tile_a, tile_b, tile_vec[0]);
     for (uint8_t t=0; t<_threads; t++)
         sa_grid.push(tile_a[t], tile_b[t], t, true);
     torch::Tensor result = torch::zeros({_a.size(0), _a.size(1), _b.size(1)},torch::kInt32);
 
-
-	auto result_ = result.accessor<int, 3>();  
+	auto result_ = result.accessor<int, 3>();
     vector<uint16_t> subtile_start, subtile_end;
     _subtile_dict(subtile_start, subtile_end);
     cout << "6" << endl;
