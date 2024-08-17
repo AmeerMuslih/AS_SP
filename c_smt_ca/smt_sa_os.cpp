@@ -34,11 +34,8 @@ public:
 
     void set_inputs(torch::Tensor a, torch::Tensor b);
     void get_tile(vector<torch::Tensor> &tile_a, vector<torch::Tensor> &tile_b, tile_idx t_idx);
-    cout << "3" << endl;
     std::vector<torch::Tensor> go();
-    cout << "4" << endl;
     std::vector<torch::Tensor> go(vector<tile_idx> &tile_vec);
-    cout << "5" << endl;
 };
 
 template <typename T>
@@ -54,7 +51,7 @@ void smt_sa_os<T>::set_inputs(torch::Tensor a, torch::Tensor b) {
         exit(0);
         }
     _a = a;
-    _b = b; 
+    _b = b;
 }
 
 template <typename T>
@@ -132,7 +129,7 @@ std::vector<torch::Tensor> smt_sa_os<T>::go(vector<tile_idx> &tile_vec) {
     assert(tile_vec.size() > 0);
     uint16_t a_tiles = ceil(float(_a.size(1)) / _dim);
 	uint16_t b_tiles = ceil(float(_b.size(1)) / _dim);
-
+    cout << "5" << endl;
     torch::Tensor PUs_access_count = torch::zeros({_dim, _dim, ((sizeof(int16_t) * CHAR_BIT)+1)},torch::kInt32);
     torch::Tensor Accumulator_bits_count = torch::zeros({_dim, _dim, ((sizeof(int32_t) * CHAR_BIT))},torch::kInt32);
     torch::Tensor InputA_Bits_count = torch::zeros({_dim, _dim, ((sizeof(int8_t) * CHAR_BIT))},torch::kInt32);
@@ -228,7 +225,7 @@ std::vector<torch::Tensor> smt_sa_os<T>::go() {
     uint16_t batch = _a.size(0);
     uint16_t a_tiles = ceil(float(_a.size(1)) / _dim);
     uint16_t b_tiles = ceil(float(_b.size(1)) / _dim);
-
+    cout << "4" << endl;
     vector<tile_idx> tile_vec;
     for (uint16_t b=0; b<batch; b++) {
         for (uint16_t i=0; i<a_tiles; i++) {
