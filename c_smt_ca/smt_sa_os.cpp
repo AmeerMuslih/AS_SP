@@ -11,7 +11,6 @@ using namespace torch::indexing;
 struct tile_idx {
     uint32_t d1;
     uint32_t d2;
-    uint32_t d3;
 };
 
 template <typename T>
@@ -64,8 +63,7 @@ void smt_sa_os<T>::get_tile(vector<torch::Tensor> &tile_a, vector<torch::Tensor>
     _subtile_dict(subtile_start, subtile_end);
     cout << "1" << endl;
     for (uint8_t t=0; t<_threads; t++) {
-        torch::Tensor tile = _a.index({(int)t_idx.d1,
-                                       Slice((int)(t_idx.d2 * a_tile_H), (int)((t_idx.d2+1)*a_tile_H)),
+        torch::Tensor tile = _a.index({Slice((int)(t_idx.d1 * a_tile_H), (int)((t_idx.d1+1)*a_tile_H)),
                                        Slice((int)subtile_start[t], (int)subtile_end[t])});
         //torch::Tensor tile = _a[t_idx.d1];
 		//tile = tile.narrow(0, t_idx.d2 * a_tile_H, (t_idx.d2+1)*a_tile_H);
@@ -82,7 +80,7 @@ void smt_sa_os<T>::get_tile(vector<torch::Tensor> &tile_a, vector<torch::Tensor>
     cout << "2" << endl;
     for (uint8_t t=0; t<_threads; t++) {
         torch::Tensor tile = _b.index({Slice((int)subtile_start[t], (int)subtile_end[t]),
-                                       Slice((int)(t_idx.d3*b_tile_W), (int)((t_idx.d3+1)*b_tile_W))});
+                                       Slice((int)(t_idx.d2*b_tile_W), (int)((t_idx.d2+1)*b_tile_W))});
 		//torch::Tensor tile = _b.narrow(0, subtile_start[t], subtile_end[t]);
 		//_b = _b.narrow(1, t_idx.d3*b_tile_W, (t_idx.d3+1)*b_tile_W);
         //xt::xarray<T> tile = xt::view(_b, xt::range(subtile_start[t], subtile_end[t]), xt::range(t_idx.d3*b_tile_W, (t_idx.d3+1)*b_tile_W));
@@ -225,20 +223,16 @@ std::vector<torch::Tensor> smt_sa_os<T>::go(vector<tile_idx> &tile_vec) {
 
 template <typename T>
 std::vector<torch::Tensor> smt_sa_os<T>::go() {
-    uint16_t batch = _a.size(0);
     uint16_t a_tiles = ceil(float(_a.size(1)) / _dim);
     uint16_t b_tiles = ceil(float(_b.size(1)) / _dim);
     cout << "4" << endl;
     vector<tile_idx> tile_vec;
-    for (uint16_t b=0; b<batch; b++) {
-        for (uint16_t i=0; i<a_tiles; i++) {
-            for (uint16_t j=0; j<b_tiles; j++) {
-                tile_idx t_idx;
-                t_idx.d1 = b;
-                t_idx.d2 = i;
-                t_idx.d3 = j;
-                tile_vec.push_back(t_idx);
-            }
+    for (uint16_t i=0; i<a_tiles; i++) {
+        for (uint16_t j=0; j<b_tiles; j++) {
+            tile_idx t_idx;
+            t_idx.d1 = i;
+            t_idx.d2 = j;
+            tile_vec.push_back(t_idx);
         }
     }
     return go(tile_vec);
