@@ -177,7 +177,7 @@ std::vector<torch::Tensor> smt_sa_os<T>::go(vector<tile_idx> &tile_vec) {
                     if ((acc_t == uint32_t(subtile_end[t] - subtile_start[t])) && !sa_grid.nodes[i][j].is_halt(t))
                         sa_grid.nodes[i][j].halt(t);
                 }
-
+                halt_count = _threads
                 if (halt_count == _threads) {
                     uint32_t batch = floor(float(array_ctrl_[i][j]) / (a_tiles * b_tiles));
                     uint32_t i_result = int(i + int((array_ctrl_[i][j] % (a_tiles * b_tiles)) / b_tiles) * _dim);
@@ -205,7 +205,7 @@ std::vector<torch::Tensor> smt_sa_os<T>::go(vector<tile_idx> &tile_vec) {
 
                 for (uint8_t t=0; t<_threads; t++)
                     sa_grid.push(tile_a[t], tile_b[t], t);
-				//cout <<"Tile A: " << tile_a[0].sizes() <<" " << "Tile B: " << tile_b[0].sizes()<<endl;
+				cout <<"Tile A: " << tile_a[0].sizes() <<" " << "Tile B: " << tile_b[0].sizes()<<endl;
                 global_tile_idx++;
 				
             }
