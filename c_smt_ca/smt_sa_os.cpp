@@ -94,6 +94,7 @@ void smt_sa_os<T>::get_tile(vector<torch::Tensor> &tile_a, vector<torch::Tensor>
                     torch::nn::functional::PadFuncOptions({0, _dim - tile_b[t].size(1)}));
         }
     }
+    cout << "3" << endl;
 }
 
 template <typename T>
@@ -155,7 +156,7 @@ std::vector<torch::Tensor> smt_sa_os<T>::go(vector<tile_idx> &tile_vec) {
 	auto result_ = result.accessor<int, 3>();  
     vector<uint16_t> subtile_start, subtile_end;
     _subtile_dict(subtile_start, subtile_end);
-
+    cout << "6" << endl;
     float util_rate = 0;
     uint32_t computed = 0;
     uint32_t while_end = tile_vec.size() * _dim * _dim;
@@ -163,6 +164,7 @@ std::vector<torch::Tensor> smt_sa_os<T>::go(vector<tile_idx> &tile_vec) {
     while (computed < while_end) {
         sa_grid.cycle(PUs_access_count,Accumulator_bits_count,InputA_Bits_count,InputB_Bits_count,MultiplierToggleCount,AccumulatorToggleCount,InputAToggleCount,InputBToggleCount);
         cycles++;
+        cout << "7" << endl;
 		//cout<< "cycles: " << cycles << endl;
         for (uint16_t i=0; i<_dim; i++) {
             for (uint16_t j=0; j<_dim; j++) {
