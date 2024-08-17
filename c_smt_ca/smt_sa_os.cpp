@@ -177,7 +177,7 @@ std::vector<torch::Tensor> smt_sa_os<T>::go(vector<tile_idx> &tile_vec) {
                     if ((acc_t == uint32_t(subtile_end[t] - subtile_start[t])) && !sa_grid.nodes[i][j].is_halt(t))
                         sa_grid.nodes[i][j].halt(t);
                 }
-                halt_count = _threads
+                halt_count = _threads;
                 if (halt_count == _threads) {
                     uint32_t batch = floor(float(array_ctrl_[i][j]) / (a_tiles * b_tiles));
                     uint32_t i_result = int(i + int((array_ctrl_[i][j] % (a_tiles * b_tiles)) / b_tiles) * _dim);
