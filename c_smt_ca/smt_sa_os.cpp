@@ -91,7 +91,7 @@ void smt_sa_os<T>::get_tile(vector<torch::Tensor> &tile_a, vector<torch::Tensor>
         if (_dim > tile_b[t].size(1)) {
             //tile_b[t] = xt::pad(tile_b[t], {{0, 0}, {0, _dim - tile_b[t].shape()[1]}});
             tile_b[t] = torch::nn::functional::pad(tile_b[t],
-                    torch::nn::functional::PadFuncOptions({0, _dim - tile_b[t].size(1)}));
+                    torch::nn::functional::PadFuncOptions({0, 0, _dim - tile_b[t].size(1)}));
         }
     }
     cout << "3" << endl;
