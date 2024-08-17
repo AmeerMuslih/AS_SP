@@ -82,7 +82,7 @@ def main():
 		totalCycles=totalCycles_tmp=total_zeros_first_a=total_zeros_first_b=total_tiles=0
 
 		#for i in range(10*(GroupID-1),10*GroupID):	
-			
+		i=0
 		filename_pickle = "MatricesForAllLayersOfPhoto-QUANTIZED8bit-"+str(i+1)+".pkl"
 		#with open(r'/home/firasramadan/miniconda3/project_quantization_8bit/OUTPUT-Imagenet/PickleFiles/' + filename_pickle, 'rb') as file:
 			#CurrentPhoto = pickle.load(file)
