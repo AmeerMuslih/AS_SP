@@ -95,7 +95,7 @@ def main():
 		#a=a[:,:,:].detach().cpu()
 		#b=b[:,:].detach().cpu()
 		ref = torch.matmul(a, b)
-		dut, util, cycles, PUs_access_count,AccumulatorBitsCount,Input_A_BitsCount,Input_B_BitsCount,MultiplierToggle,AccumulatorToggle,InputAToggle,InputBToggle = c_smt_sa.exec(a[:,:,:].detach().cpu(),b[:,:].detach().cpu(), dim, 1, 1024)
+		dut, util, cycles, PUs_access_count,AccumulatorBitsCount,Input_A_BitsCount,Input_B_BitsCount,MultiplierToggle,AccumulatorToggle,InputAToggle,InputBToggle = c_smt_sa.exec(a[:,:].detach().cpu(),b[:,:].detach().cpu(), dim, 1, 1024)
 		all_util += PUs_access_count
 		Accumulator_TOT += AccumulatorBitsCount
 		InputA_TOT += Input_A_BitsCount
