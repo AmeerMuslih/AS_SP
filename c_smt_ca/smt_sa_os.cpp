@@ -109,7 +109,7 @@ void smt_sa_os<T>::_subtile_dict(vector<uint16_t> &subtile_start, vector<uint16_
 
 template <typename T>
 void smt_sa_os<T>::_subtile_range(uint8_t thread, uint16_t &thread_tile_start, uint16_t &thread_tile_end) {
-    uint16_t a_tile_W = _a.size(2);
+    uint16_t a_tile_W = _a.size(1);
     uint16_t b_tile_H = _b.size(0);
     assert(a_tile_W == b_tile_H);
 
