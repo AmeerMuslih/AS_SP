@@ -35,7 +35,9 @@ public:
     void set_inputs(torch::Tensor a, torch::Tensor b);
     void get_tile(vector<torch::Tensor> &tile_a, vector<torch::Tensor> &tile_b, tile_idx t_idx);
     std::vector<torch::Tensor> go();
+    printf("4");
     std::vector<torch::Tensor> go(vector<tile_idx> &tile_vec);
+    printf("5");
 };
 
 template <typename T>
@@ -62,7 +64,7 @@ void smt_sa_os<T>::get_tile(vector<torch::Tensor> &tile_a, vector<torch::Tensor>
     vector<uint16_t> subtile_start;
     vector<uint16_t> subtile_end;
     _subtile_dict(subtile_start, subtile_end);
-
+    printf("1");
     for (uint8_t t=0; t<_threads; t++) {
         torch::Tensor tile = _a.index({(int)t_idx.d1,
                                        Slice((int)(t_idx.d2 * a_tile_H), (int)((t_idx.d2+1)*a_tile_H)),
@@ -79,7 +81,7 @@ void smt_sa_os<T>::get_tile(vector<torch::Tensor> &tile_a, vector<torch::Tensor>
                    torch::nn::functional::PadFuncOptions({0, 0, 0, _dim - tile_a[t].size(0)}));
         }
     }
-
+    printf("2");
     for (uint8_t t=0; t<_threads; t++) {
         torch::Tensor tile = _b.index({Slice((int)subtile_start[t], (int)subtile_end[t]),
                                        Slice((int)(t_idx.d3*b_tile_W), (int)((t_idx.d3+1)*b_tile_W))});
@@ -94,6 +96,7 @@ void smt_sa_os<T>::get_tile(vector<torch::Tensor> &tile_a, vector<torch::Tensor>
                     torch::nn::functional::PadFuncOptions({0, _dim - tile_b[t].size(1)}));
         }
     }
+    printf("3");
 }
 
 template <typename T>
