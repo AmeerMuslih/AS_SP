@@ -140,7 +140,7 @@ std::vector<torch::Tensor> smt_sa_os<T>::go(vector<tile_idx> &tile_vec) {
     //auto PUs_access_count_ = PUs_access_count.accessor<T,2>();
     cout << "6" << endl;
     // Assuming tile_vec is ordered (batch, height, width), i.e., rows->columns->depth!
-    int32_t counter_max = (tile_vec[0].d1 * a_tiles * b_tiles) + (tile_vec[0].d2 * b_tiles) + (tile_vec[0].d3);
+    int32_t counter_max = (tile_vec[0].d1 * b_tiles) + (tile_vec[0].d2);
     torch::Tensor array_ctrl = torch::full({_dim, _dim}, counter_max, torch::dtype(torch::kInt32));
     cout << "7" << endl;
 	auto array_ctrl_ = array_ctrl.accessor<int32_t, 2>();
