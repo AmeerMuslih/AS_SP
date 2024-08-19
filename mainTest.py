@@ -89,7 +89,7 @@ def main():
 		#for m in range(0,len(CurrentPhoto)):
 		#a= CurrentPhoto[m].InputT
 		#b= CurrentPhoto[m].WeightT 
-		a = torch.randint(dim, dim)
+		a = torch.randint(50, (dim, dim))
 		b = torch.ones(dim, dim)
 		print(a)
 		print(b)
