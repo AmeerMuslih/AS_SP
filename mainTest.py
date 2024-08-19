@@ -90,7 +90,7 @@ def main():
 		#a= CurrentPhoto[m].InputT
 		#b= CurrentPhoto[m].WeightT 
 		dim1 = dim
-		dim2 = dim/2
+		dim2 = dim//2
 		a = torch.randint(high=50, size=(dim1, dim2))
 		b = torch.randint(high=50, size=(dim2, dim1))
 		print(a)
