@@ -91,6 +91,8 @@ def main():
 		#b= CurrentPhoto[m].WeightT 
 		a = torch.randn(dim, dim)
 		b = torch.ones(dim, dim)
+		print(a)
+		print(b)
 		#a=a[:,:,:].detach().cpu()
 		#b=b[:,:].detach().cpu()
 		ref = torch.matmul(a, b)
@@ -111,6 +113,8 @@ def main():
 		print(totalCycles_tmp)
 		diff = (ref - dut).abs().max()
 		print("diff={}, util={}".format(diff.item(), (util / cycles).item()))
+		print(ref)
+		print(dut)
 		if diff > 1e-4:
 			print("fuck")
 			exit()
