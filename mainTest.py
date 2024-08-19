@@ -90,7 +90,7 @@ def main():
 		#a= CurrentPhoto[m].InputT
 		#b= CurrentPhoto[m].WeightT 
 		a = torch.randn(1, dim, dim)
-		b = torch.randn(dim, dim)
+		b = torch.ones(dim, dim)
 		#a=a[:,:,:].detach().cpu()
 		#b=b[:,:].detach().cpu()
 		ref = torch.matmul(a, b)
