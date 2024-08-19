@@ -10,7 +10,7 @@ import math
 type_bits=33
 parser = argparse.ArgumentParser(description='Firas Ramadan, firasramadan@campus.technion.ac.il')
 parser.add_argument('--dimension', type=int, required=True, help='choose the dimension of the systolic array')
-parser.add_argument('--GroupID', type=int, required=True, help='choose which group of the generated pickle files to load- all are in size of 10')
+#parser.add_argument('--GroupID', type=int, required=True, help='choose which group of the generated pickle files to load- all are in size of 10')
 
 def csvFilesMaker(dim,GroupID,all_util,Accumulator_TOT,InputA_TOT,InputB_TOT,ToggleCount_MultiplierBits,ToggleCount_Accumulator_Bits,ToggleCount_InputA_Bits,ToggleCount_InputB_Bits):
 		filenamek_csv = "UtilityFor"+str(dim)+"X"+str(dim)+"Dim.csv"
@@ -89,8 +89,8 @@ def main():
 		#for m in range(0,len(CurrentPhoto)):
 		#a= CurrentPhoto[m].InputT
 		#b= CurrentPhoto[m].WeightT 
-		a = torch.zeros(1, dim, dim, type_bits)
-		b = torch.zeros(dim, dim, type_bits)
+		a = torch.zeros(1, dim, dim)
+		b = torch.zeros(dim, dim)
 		#a=a[:,:,:].detach().cpu()
 		#b=b[:,:].detach().cpu()
 		#ref = torch.matmul(a, b)
@@ -115,7 +115,7 @@ def main():
 				#	print("fuck")
 				#	exit()
 		#print(total_zeros_first_a+total_zeros_first_b)
-		csvFilesMaker(dim,GroupID,all_util,Accumulator_TOT,InputA_TOT,InputB_TOT,ToggleCount_MultiplierBits,ToggleCount_Accumulator_Bits,ToggleCount_InputA_Bits,ToggleCount_InputB_Bits)
+		csvFilesMaker(dim,0,all_util,Accumulator_TOT,InputA_TOT,InputB_TOT,ToggleCount_MultiplierBits,ToggleCount_Accumulator_Bits,ToggleCount_InputA_Bits,ToggleCount_InputB_Bits)
 
 		return
 	
