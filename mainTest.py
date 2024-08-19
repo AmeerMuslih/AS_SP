@@ -14,7 +14,7 @@ parser.add_argument('--dimension', type=int, required=True, help='choose the dim
 
 def csvFilesMaker(dim,GroupID,all_util,Accumulator_TOT,InputA_TOT,InputB_TOT,ToggleCount_MultiplierBits,ToggleCount_Accumulator_Bits,ToggleCount_InputA_Bits,ToggleCount_InputB_Bits):
 		filenamek_csv = "UtilityFor"+str(dim)+"X"+str(dim)+"Dim.csv"
-		Destination_path = "/home/a.mosa/AS_SP/c_smt_sa/OutputFiles" #"/home/firasramadan/miniconda3/project_quantization_8bit/c_smt_sa/OutputFiles/Group-" + str(GroupID)+ "/"
+		Destination_path = "/home/a.mosa/AS_SP/c_smt_ca/OutputFiles" #"/home/firasramadan/miniconda3/project_quantization_8bit/c_smt_sa/OutputFiles/Group-" + str(GroupID)+ "/"
 		all_util_df = pd.DataFrame(all_util[:,:,0].numpy())
 		all_util_df.to_csv(Destination_path + filenamek_csv,header = False, index = False)
     
