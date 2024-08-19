@@ -89,8 +89,8 @@ def main():
 		#for m in range(0,len(CurrentPhoto)):
 		#a= CurrentPhoto[m].InputT
 		#b= CurrentPhoto[m].WeightT 
-		a = torch.randint(50, (dim, dim))
-		b = torch.ones(dim, dim)
+		a = torch.randint(high=50, size=(dim, dim))
+		b = torch.randint(high=50, size=(dim, dim))
 		print(a)
 		print(b)
 		#a=a[:,:,:].detach().cpu()
