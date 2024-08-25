@@ -45,7 +45,7 @@ template <typename T>
 void smt_sa_os<T>::set_inputs(torch::Tensor a, torch::Tensor b) {
     assert(a.dim() == 3);
     assert(b.dim() == 2);
-	cout << a.size(2) << "      " << b.size(0) << endl;
+	//cout << a.size(2) << "      " << b.size(0) << endl;
     if(a.size(2) != b.size(0)){
         cout << "ERROR: WRONG DIMENSIONS" << endl;
         exit(0);
@@ -159,12 +159,12 @@ std::vector<torch::Tensor> smt_sa_os<T>::go(vector<tile_idx> &tile_vec) {
     float util_rate = 0;
     uint32_t computed = 0;
     uint32_t while_end = tile_vec.size() * _dim * _dim;
-    cout << "while_end: " << while_end << endl;
-    cout << "Tile Vec Size: " << tile_vec.size() << endl;
+    // cout << "while_end: " << while_end << endl;
+    // cout << "Tile Vec Size: " << tile_vec.size() << endl;
 	//cout << while_end << endl;
     while (computed < while_end) {
         sa_grid.cycle(PUs_access_count,Accumulator_bits_count,InputA_Bits_count,InputB_Bits_count,MultiplierToggleCount,AccumulatorToggleCount,InputAToggleCount,InputBToggleCount);
-        cycles++;
+        // cycles++;
 		//cout<< "cycles: " << cycles << endl;
         for (uint16_t i=0; i<_dim; i++) {
             for (uint16_t j=0; j<_dim; j++) {
@@ -209,7 +209,7 @@ std::vector<torch::Tensor> smt_sa_os<T>::go(vector<tile_idx> &tile_vec) {
                     sa_grid.push(tile_a[t], tile_b[t], t);
 				//cout <<"Tile A: " << tile_a[0].sizes() <<" " << "Tile B: " << tile_b[0].sizes()<<endl;
                 global_tile_idx++;
-				cout << "cycles: " << cycles << endl;
+				// cout << "cycles: " << cycles << endl;
             }
         }
 
